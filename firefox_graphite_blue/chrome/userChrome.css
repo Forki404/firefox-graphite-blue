@@ -1,0 +1,410 @@
+/*
+ * Graphite Blue — custom Firefox userChrome.css
+ * Dark graphite surfaces, rounded tabs, and a soft blue accent.
+ * Install in: <Firefox profile>/chrome/userChrome.css
+ * Then fully restart Firefox.
+ */
+
+/* ---------- Palette ---------- */
+:root {
+  --gc-bg: #171a21;
+  --gc-bg-raised: #1c212b;
+  --gc-field: #202633;
+  --gc-field-hover: #252d3b;
+  --gc-tab-active: #29364b;
+  --gc-tab-hover: #222a37;
+  --gc-border: #30394a;
+  --gc-border-active: #405779;
+  --gc-text: #e3e8f1;
+  --gc-text-muted: #a0aabd;
+  --gc-accent: #83a9e8;
+
+  --toolbar-bgcolor: var(--gc-bg) !important;
+  --toolbar-color: var(--gc-text) !important;
+  --lwt-accent-color: var(--gc-bg) !important;
+  --lwt-text-color: var(--gc-text) !important;
+  --toolbar-field-background-color: var(--gc-field) !important;
+  --toolbar-field-color: var(--gc-text) !important;
+  --toolbar-field-border-color: var(--gc-border) !important;
+  --toolbar-field-focus-background-color: var(--gc-field) !important;
+  --toolbar-field-focus-color: var(--gc-text) !important;
+  --toolbar-field-focus-border-color: var(--gc-accent) !important;
+  --tab-border-radius: 11px !important;
+
+  /* Firefox's native sidebar (bookmarks, history, synced tabs, etc.) */
+  --lwt-sidebar-background-color: var(--gc-bg) !important;
+  --lwt-sidebar-text-color: var(--gc-text) !important;
+  --sidebar-background-color: var(--gc-bg) !important;
+  --sidebar-text-color: var(--gc-text) !important;
+  --sidebar-border-color: #2a3140 !important;
+}
+
+/* ---------- Main browser chrome ---------- */
+#navigator-toolbox,
+#titlebar,
+#TabsToolbar,
+#nav-bar,
+#PersonalToolbar,
+#toolbar-menubar {
+  background: var(--gc-bg) !important;
+  color: var(--gc-text) !important;
+}
+
+#navigator-toolbox {
+  border-bottom: 1px solid #252b36 !important;
+  box-shadow: none !important;
+}
+
+/* Give the navigation row a little breathing room. */
+#nav-bar {
+  min-height: 44px !important;
+  padding: 4px 8px !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+#TabsToolbar {
+  min-height: 39px !important;
+  padding: 3px 8px 0 !important;
+  box-shadow: none !important;
+}
+
+#PersonalToolbar {
+  min-height: 32px !important;
+  padding: 2px 8px 5px !important;
+  border: 0 !important;
+}
+
+/* ---------- Tabs ---------- */
+#tabbrowser-tabs {
+  --tab-line-color: transparent !important;
+  --tab-loading-fill: var(--gc-accent) !important;
+  color: var(--gc-text) !important;
+}
+
+.tabbrowser-tab {
+  position: relative !important;
+  color: var(--gc-text-muted) !important;
+  padding-inline: 4px !important;
+}
+
+.tabbrowser-tab .tab-stack {
+  margin-block: 2px !important;
+}
+
+.tabbrowser-tab .tab-background {
+  margin: 0 !important;
+  border: 1px solid transparent !important;
+  border-radius: 11px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease !important;
+}
+
+/* A thin, subtle separator between tabs. */
+.tabbrowser-tab:not(:last-child)::after {
+  content: "" !important;
+  position: absolute !important;
+  inset-inline-end: 0 !important;
+  top: 27% !important;
+  height: 46% !important;
+  width: 1px !important;
+  background: linear-gradient(180deg, transparent, #3a465a 35%, #3a465a 65%, transparent) !important;
+  opacity: 0.75 !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+/* Keep separators subtle around the active tab. */
+.tabbrowser-tab[selected="true"]::after,
+.tabbrowser-tab:hover::after,
+.tabbrowser-tab:has(+ .tabbrowser-tab[selected="true"])::after {
+  opacity: 0.22 !important;
+}
+
+.tabbrowser-tab:not([selected="true"]):hover .tab-background {
+  background: var(--gc-tab-hover) !important;
+  border-color: #2b3443 !important;
+}
+
+.tabbrowser-tab[selected="true"] {
+  color: var(--gc-text) !important;
+}
+
+.tabbrowser-tab[selected="true"] .tab-background {
+  background: var(--gc-tab-active) !important;
+  border-color: var(--gc-border-active) !important;
+  box-shadow: inset 0 0 0 1px #83a9e80b, 0 2px 10px #00000020 !important;
+}
+
+.tabbrowser-tab:not([selected="true"]):hover .tab-background {
+  box-shadow: 0 2px 8px #00000018 !important;
+}
+
+/* Hide Firefox's default tab accent strip; the whole active tab is highlighted instead. */
+.tabbrowser-tab .tab-line,
+.tabbrowser-tab .tab-loading-burst {
+  opacity: 0 !important;
+}
+
+/* Keep pinned tabs tidy and rounded too. */
+.tabbrowser-tab[pinned="true"] .tab-background {
+  border-radius: 10px !important;
+}
+
+/* Softer tab text and close button. */
+.tab-label {
+  font-weight: 500 !important;
+}
+
+.tab-close-button {
+  border-radius: 7px !important;
+}
+
+/* ---------- Address bar and search field ---------- */
+#urlbar,
+#searchbar {
+  --urlbar-box-bgcolor: var(--gc-field) !important;
+  --urlbar-box-focus-bgcolor: var(--gc-field) !important;
+  --urlbar-box-hover-bgcolor: var(--gc-field-hover) !important;
+  color: var(--gc-text) !important;
+}
+
+#urlbar-background,
+#searchbar,
+.searchbar-textbox {
+  background: var(--gc-field) !important;
+  border: 1px solid var(--gc-border) !important;
+  border-radius: 13px !important;
+  box-shadow: none !important;
+  transition: background-color 120ms ease, border-color 120ms ease !important;
+}
+
+#urlbar:hover > #urlbar-background,
+#searchbar:hover,
+.searchbar-textbox:hover {
+  background: var(--gc-field-hover) !important;
+  border-color: #3a465a !important;
+}
+
+#urlbar[focused="true"] > #urlbar-background,
+#searchbar:focus-within,
+.searchbar-textbox:focus-within {
+  background: var(--gc-field) !important;
+  border-color: var(--gc-accent) !important;
+  box-shadow: 0 0 0 1px #83a9e833 !important;
+}
+
+/* Rounded suggestions when the address bar is open. */
+.urlbarView,
+.urlbarView-body-outer,
+.urlbarView-results,
+.urlbarView-row-inner {
+  border-radius: 10px !important;
+}
+
+.urlbarView {
+  background: var(--gc-bg-raised) !important;
+  color: var(--gc-text) !important;
+}
+
+.urlbarView-row:hover .urlbarView-row-inner,
+.urlbarView-row[selected] .urlbarView-row-inner {
+  background: #2a3445 !important;
+}
+
+/* ---------- Toolbar buttons ---------- */
+#nav-bar .toolbarbutton-1 > .toolbarbutton-icon,
+#nav-bar .toolbarbutton-1 > .toolbarbutton-badge-stack,
+#TabsToolbar .toolbarbutton-1 > .toolbarbutton-icon,
+#TabsToolbar .toolbarbutton-1 > .toolbarbutton-badge-stack {
+  border-radius: 9px !important;
+  transition: background-color 120ms ease !important;
+}
+
+#nav-bar .toolbarbutton-1:hover > .toolbarbutton-icon,
+#nav-bar .toolbarbutton-1:hover > .toolbarbutton-badge-stack,
+#TabsToolbar .toolbarbutton-1:hover > .toolbarbutton-icon,
+#TabsToolbar .toolbarbutton-1:hover > .toolbarbutton-badge-stack {
+  background-color: #2a3140 !important;
+}
+
+#nav-bar .toolbarbutton-1:active > .toolbarbutton-icon,
+#nav-bar .toolbarbutton-1:active > .toolbarbutton-badge-stack {
+  background-color: #35445c !important;
+}
+
+/* ---------- Menus, panels and context popups ---------- */
+menupopup,
+.panel-arrowcontent,
+.panel-subview-body,
+#appMenu-popup,
+#identity-popup,
+#permission-popup {
+  --panel-background: var(--gc-bg-raised) !important;
+  --panel-color: var(--gc-text) !important;
+  --arrowpanel-background: var(--gc-bg-raised) !important;
+  --arrowpanel-color: var(--gc-text) !important;
+  color: var(--gc-text) !important;
+}
+
+menupopup {
+  background: var(--gc-bg-raised) !important;
+  border: 1px solid var(--gc-border) !important;
+  border-radius: 12px !important;
+}
+
+menuitem,
+menu {
+  border-radius: 7px !important;
+}
+
+menupopup menuitem:hover,
+menupopup menu:hover,
+.panel-subview-body toolbarbutton:hover {
+  background-color: #2a3445 !important;
+}
+
+/* ---------- Bookmarks toolbar ---------- */
+#PlacesToolbarItems > .bookmark-item,
+#PersonalToolbar .toolbarbutton-1 > .toolbarbutton-icon,
+#PersonalToolbar .toolbarbutton-1 > .toolbarbutton-badge-stack {
+  border-radius: 8px !important;
+}
+
+#PlacesToolbarItems > .bookmark-item:hover {
+  background-color: #252d3b !important;
+}
+
+/* ---------- Sidebar: match the top toolbar ---------- */
+#sidebar-box,
+#sidebar,
+#sidebar-header,
+#sidebar-panel-header,
+.sidebar-panel,
+.sidebar-browser-stack {
+  background: var(--gc-bg) !important;
+  background-color: var(--gc-bg) !important;
+  color: var(--gc-text) !important;
+  border-color: #252b36 !important;
+}
+
+/* Keep the header integrated with the sidebar instead of Firefox's default surface. */
+#sidebar-header,
+#sidebar-panel-header {
+  border: 0 !important;
+  border-bottom: 1px solid #252b36 !important;
+  box-shadow: none !important;
+}
+
+/* A subtle graphite divider between the sidebar and the page. */
+#sidebar-box {
+  border-inline-end: 1px solid #252b36 !important;
+}
+
+#sidebar-splitter,
+.sidebar-splitter {
+  background: var(--gc-bg) !important;
+  background-color: var(--gc-bg) !important;
+  border: 0 !important;
+  border-inline-start: 1px solid #252b36 !important;
+  opacity: 1 !important;
+}
+
+/* Sidebar controls use the same soft rounded hover surface. */
+#sidebar-header toolbarbutton,
+#sidebar-panel-header toolbarbutton,
+.sidebar-panel toolbarbutton,
+#sidebar-box button {
+  border-radius: 8px !important;
+}
+
+#sidebar-header toolbarbutton:hover,
+#sidebar-panel-header toolbarbutton:hover,
+.sidebar-panel toolbarbutton:hover,
+#sidebar-box button:hover {
+  background-color: #252d3b !important;
+}
+
+/* ---------- Reduce harsh separators ---------- */
+#urlbar-container,
+#search-container,
+#PersonalToolbar,
+#TabsToolbar,
+#nav-bar {
+  border-color: transparent !important;
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  .tabbrowser-tab .tab-background,
+  #urlbar-background,
+  #searchbar,
+  .searchbar-textbox,
+  #nav-bar .toolbarbutton-1 > .toolbarbutton-icon,
+  #nav-bar .toolbarbutton-1 > .toolbarbutton-badge-stack {
+    transition: none !important;
+  }
+}
+
+
+/* ---------- Sidebar fixes for newer Firefox (revamped/Nova sidebar) ---------- */
+:root {
+  --sidebar-background-color: #171a21 !important;
+  --sidebar-text-color: #e3e8f1 !important;
+  --sidebar-border-color: #252b36 !important;
+  --lwt-sidebar-background-color: #171a21 !important;
+  --lwt-sidebar-text-color: #e3e8f1 !important;
+  --toolbox-background-color: #171a21 !important;
+  --toolbox-bgcolor: #171a21 !important;
+  --sidebar-box-background: #171a21 !important;
+}
+
+/* The sidebar launcher/rail and its surrounding container in newer Firefox. */
+#sidebar-container,
+#sidebar-main,
+:root[sidebar-expand-on-hover] #sidebar-container {
+  --sidebar-background-color: #171a21 !important;
+  --sidebar-text-color: #e3e8f1 !important;
+  background: #171a21 !important;
+  background-color: #171a21 !important;
+  color: #e3e8f1 !important;
+  border-color: #252b36 !important;
+}
+
+/* The panel itself (bookmarks, history, tabs, AI and other sidebar views). */
+#sidebar-box,
+#sidebar-box #sidebar,
+#sidebar,
+#sidebar-panel-header,
+#sidebar-header,
+.sidebar-panel,
+.sidebar-panel[lwt-sidebar],
+.sidebar-browser-stack,
+#sidebar-box[lwt-sidebar] {
+  --sidebar-background-color: #171a21 !important;
+  --sidebar-text-color: #e3e8f1 !important;
+  --lwt-sidebar-background-color: #171a21 !important;
+  --lwt-sidebar-text-color: #e3e8f1 !important;
+  background: #171a21 !important;
+  background-color: #171a21 !important;
+  color: #e3e8f1 !important;
+  border-color: #252b36 !important;
+}
+
+#sidebar-box .sidebar-panel,
+#sidebar-box .sidebar-panel[lwt-sidebar],
+#sidebar-box .sidebar-placesTree,
+#sidebar-box .sidebar-placesTreechildren {
+  --sidebar-background-color: #171a21 !important;
+  --lwt-sidebar-background-color: #171a21 !important;
+  background-color: #171a21 !important;
+  color: #e3e8f1 !important;
+}
+
+/* Slightly clearer separator between the page and sidebar. */
+#sidebar-box,
+#sidebar-splitter,
+#sidebar-launcher-splitter {
+  border-color: #2a3140 !important;
+}
