@@ -1,0 +1,176 @@
+/*
+ * Graphite Blue — Firefox Home / New Tab page
+ * Install beside userChrome.css as: chrome/userContent.css
+ * Styles the built-in about:home and about:newtab pages.
+ */
+
+@-moz-document url-prefix(about:home), url-prefix(about:newtab) {
+  :root {
+    --home-bg: #11151d;
+    --home-surface: #1b2230;
+    --home-surface-hover: #242e40;
+    --home-border: #303c50;
+    --home-text: #e5ebf5;
+    --home-muted: #a3aec1;
+    --home-accent: #83a9e8;
+  }
+
+  html,
+  body,
+  .activity-stream {
+    background-color: var(--home-bg) !important;
+    color: var(--home-text) !important;
+  }
+
+  body {
+    background-image:
+      radial-gradient(ellipse 70% 44% at 50% 0%, #273d5b55 0%, transparent 100%),
+      linear-gradient(180deg, #131923 0%, #11151d 62%, #10141b 100%) !important;
+    background-attachment: fixed !important;
+  }
+
+  .outer-wrapper {
+    color: var(--home-text) !important;
+  }
+
+  /* Search field: rounded, dark, with a gentle focus glow. */
+  .search-wrapper .search-handoff-button,
+  .search-wrapper input,
+  .search-wrapper .search-handoff-button:hover,
+  .search-wrapper .search-handoff-button:active {
+    color: var(--home-text) !important;
+    background: #1b2230 !important;
+    border: 1px solid #354157 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 28px #00000022 !important;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease !important;
+  }
+
+  .search-wrapper .search-handoff-button:hover {
+    background: #202a3a !important;
+    border-color: #465977 !important;
+  }
+
+  .search-wrapper .search-handoff-button:focus,
+  .search-wrapper .search-handoff-button:focus-within,
+  .search-wrapper input:focus {
+    border-color: var(--home-accent) !important;
+    box-shadow: 0 0 0 3px #83a9e81c, 0 8px 28px #00000028 !important;
+    outline: none !important;
+  }
+
+  /* Shortcut card: rounded surface with a little breathing room. */
+  .top-sites-list {
+    gap: 10px !important;
+  }
+
+  .top-site-outer {
+    border-radius: 17px !important;
+    padding: 5px !important;
+    transition: transform 170ms ease, background-color 170ms ease !important;
+  }
+
+  .top-site-outer:hover {
+    background: #27344955 !important;
+    transform: translateY(-3px) !important;
+  }
+
+  .top-site-outer .top-site-button,
+  .top-site-outer .tile {
+    border-radius: 15px !important;
+    overflow: hidden !important;
+  }
+
+  .top-site-outer .tile {
+    background: linear-gradient(145deg, #202938 0%, #171d27 100%) !important;
+    border: 1px solid #354157 !important;
+    box-shadow: 0 5px 16px #00000020, inset 0 1px 0 #ffffff08 !important;
+    transition: border-color 170ms ease, box-shadow 170ms ease, transform 170ms ease, background 170ms ease !important;
+  }
+
+  .top-site-outer:hover .tile {
+    background: linear-gradient(145deg, #26354a 0%, #1b2432 100%) !important;
+    border-color: #58749e !important;
+    box-shadow: 0 9px 24px #00000035, 0 0 0 1px #83a9e812 !important;
+    transform: scale(1.025) !important;
+  }
+
+  /* Icon containers and icons themselves. */
+  .top-site-outer .tile .icon-wrapper,
+  .top-site-outer .tile .top-site-icon,
+  .top-site-outer .default-icon,
+  .top-site-outer .search-topsite {
+    border-radius: 12px !important;
+  }
+
+  .top-site-outer .tile .icon-wrapper {
+    background: #111722 !important;
+    box-shadow: inset 0 0 0 1px #ffffff08 !important;
+    overflow: hidden !important;
+    transition: box-shadow 170ms ease, transform 170ms ease !important;
+  }
+
+  .top-site-outer:hover .tile .icon-wrapper {
+    box-shadow: inset 0 0 0 1px #83a9e82b, 0 0 14px #83a9e814 !important;
+  }
+
+  .top-site-outer .default-icon {
+    background-color: #263348 !important;
+    color: var(--home-accent) !important;
+  }
+
+  .top-site-outer .title,
+  .top-site-outer .title span {
+    color: var(--home-muted) !important;
+    transition: color 150ms ease !important;
+  }
+
+  .top-site-outer:hover .title,
+  .top-site-outer:hover .title span {
+    color: var(--home-text) !important;
+  }
+
+  /* Round the three-dot shortcut menu and pin control. */
+  .top-site-outer .context-menu-button,
+  .top-site-outer .pinned .icon,
+  .top-site-outer .top-site-button .context-menu-button {
+    border-radius: 999px !important;
+  }
+
+  .top-site-outer .context-menu-button:hover {
+    background-color: #34445e !important;
+  }
+
+  /* Section headings and optional content remain readable on the dark surface. */
+  .section-title,
+  .section-title span,
+  .prefs-pane,
+  .contentSearchSuggestionTable,
+  .weather,
+  .ds-card,
+  .card-outer {
+    color: var(--home-text) !important;
+  }
+
+  .ds-card,
+  .card-outer {
+    border-radius: 14px !important;
+    overflow: hidden !important;
+  }
+
+  /* Reduced-motion accessibility: keep effects calm when requested by the OS. */
+  @media (prefers-reduced-motion: reduce) {
+    .top-site-outer,
+    .top-site-outer .tile,
+    .top-site-outer .tile .icon-wrapper,
+    .search-wrapper .search-handoff-button,
+    .search-wrapper input {
+      transition: none !important;
+    }
+
+    .top-site-outer:hover,
+    .top-site-outer:hover .tile {
+      transform: none !important;
+    }
+  }
+}
